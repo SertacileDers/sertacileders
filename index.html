@@ -1,0 +1,1432 @@
+<!DOCTYPE html>
+<html lang="tr" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sertaç ile Ders | Eğitim ve Öğrenme Portalı</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <script>
+        if (typeof tailwind !== 'undefined') {
+            tailwind.config = {
+                theme: {
+                    extend: {
+                        fontFamily: {
+                            sans: ['Inter', 'sans-serif'],
+                            heading: ['Plus Jakarta Sans', 'sans-serif'],
+                        },
+                        colors: {
+                            brand: {
+                                navy: '#0F172A',
+                                blue: '#1E3A8A',
+                                teal: '#0D9488',
+                                orange: '#F97316',
+                                light: '#F8FAFC'
+                            }
+                        }
+                    }
+                }
+            };
+        }
+    </script>
+
+    <!-- Tema ve Yazdırma Stilleri -->
+    <style>
+        body.theme-dark {
+            background-color: #020617 !important;
+            color: #e2e8f0 !important;
+        }
+        body.theme-dark header {
+            background-color: rgba(15, 23, 42, 0.92) !important;
+            border-color: #1e293b !important;
+        }
+        body.theme-dark .bg-white {
+            background-color: #0f172a !important;
+            color: #f1f5f9 !important;
+            border-color: #1e293b !important;
+        }
+        body.theme-dark .bg-slate-50,
+        body.theme-dark .bg-slate-100 {
+            background-color: #090d16 !important;
+            border-color: #1e293b !important;
+        }
+        body.theme-dark .text-slate-900,
+        body.theme-dark .text-slate-800 {
+            color: #f8fafc !important;
+        }
+        body.theme-dark .text-slate-600,
+        body.theme-dark .text-slate-700 {
+            color: #94a3b8 !important;
+        }
+        body.theme-dark .border-slate-200 {
+            border-color: #1e293b !important;
+        }
+        body.theme-dark input,
+        body.theme-dark select {
+            background-color: #1e293b !important;
+            color: #f8fafc !important;
+            border-color: #334155 !important;
+        }
+
+        body.theme-light {
+            background-color: #ffffff !important;
+            color: #0f172a !important;
+        }
+        body.theme-light #hero-section {
+            background: linear-gradient(to bottom, #f8fafc, #ffffff) !important;
+            color: #0f172a !important;
+        }
+
+        @media print {
+            body * { visibility: hidden; }
+            #pdf-print-area, #pdf-print-area * { visibility: visible; }
+            #pdf-print-area {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                background: white !important;
+                color: black !important;
+                padding: 20px;
+                display: block !important;
+            }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans antialiased selection:bg-teal-500 selection:text-white transition-colors duration-300">
+
+    <!-- Kullanıcı Adı Giriş Modalı -->
+    <div id="username-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/85 backdrop-blur-md">
+        <div class="bg-slate-900 border border-slate-800 w-full max-w-md rounded-3xl p-6 sm:p-8 shadow-2xl text-center text-white">
+            <div class="w-16 h-16 rounded-2xl bg-teal-500/20 text-teal-400 flex items-center justify-center mx-auto mb-4 border border-teal-500/30">
+                <i data-lucide="user" class="w-8 h-8"></i>
+            </div>
+            <h2 class="font-heading text-2xl font-extrabold mb-2">Sertaç ile Ders Portalı</h2>
+            <p class="text-slate-400 text-xs sm:text-sm mb-6">Sana nasıl hitap etmemizi istersin? Lütfen adını gir:</p>
+            
+            <form onsubmit="handleUsernameSubmit(event)" class="space-y-4">
+                <input type="text" id="username-input" required placeholder="Örn: Mert Ali, Zeynep..." class="w-full bg-slate-800 border border-slate-700 rounded-2xl px-4 py-3.5 text-sm font-semibold text-white text-center focus:outline-none focus:ring-2 focus:ring-teal-500">
+                <button type="submit" class="w-full bg-teal-500 hover:bg-teal-400 text-slate-950 font-extrabold py-3.5 rounded-2xl transition-all shadow-lg cursor-pointer">
+                    Derse Başla 🚀
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Üst Navigasyon Çubuğu -->
+    <header class="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-slate-200/80 shadow-sm transition-colors duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-wrap justify-between items-center py-3 gap-3">
+                <a href="#" class="flex items-center gap-3 group">
+                    <div class="w-10 h-10 sm:w-11 sm:h-11 rounded-2xl bg-gradient-to-br from-slate-900 via-blue-900 to-teal-700 flex items-center justify-center text-white shadow-md group-hover:scale-105 transition-transform">
+                        <i data-lucide="graduation-cap" class="w-6 h-6 text-amber-400"></i>
+                    </div>
+                    <div>
+                        <span class="font-heading font-extrabold text-lg sm:text-xl tracking-tight text-slate-900 block leading-none">
+                            Sertaç <span class="text-teal-600">ile</span> Ders
+                        </span>
+                        <span class="text-[11px] font-medium text-slate-500 tracking-wide">Bilgi, Sabır ve Başarı Rehberi</span>
+                    </div>
+                </a>
+
+                <nav class="hidden xl:flex items-center gap-6">
+                    <a href="#sinif-6" class="text-sm font-bold text-teal-600 hover:text-teal-700 flex items-center gap-1.5 transition-colors">
+                        <span class="px-2 py-0.5 rounded-md bg-teal-500/15 text-teal-600 text-xs">6. Sınıf</span>
+                        <span>Dersler & Konular</span>
+                    </a>
+                    <a href="#test-merkezi" class="text-sm font-bold text-orange-600 hover:text-orange-700 flex items-center gap-1.5 transition-colors">
+                        <span class="px-2 py-0.5 rounded-md bg-orange-500/15 text-orange-600 text-xs">Yeni</span>
+                        <span>Test Merkezi</span>
+                    </a>
+                    <a href="#calisma-alani" class="text-sm font-semibold text-slate-600 hover:text-teal-600 transition-colors">Çalışma & Hedefler</a>
+                    <a href="#hakkimizda" class="text-sm font-semibold text-slate-600 hover:text-teal-600 transition-colors">Sertaç Hoca</a>
+                </nav>
+
+                <div class="flex items-center gap-2 sm:gap-3">
+                    <div class="flex items-center bg-slate-100 p-1 rounded-xl border border-slate-200/80">
+                        <button onclick="setTheme('original')" id="btn-theme-original" class="theme-switch-btn px-2.5 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1 transition-all bg-teal-600 text-white shadow-xs">
+                            <i data-lucide="palette" class="w-3.5 h-3.5"></i>
+                            <span class="hidden sm:inline">Orijinal</span>
+                        </button>
+                        <button onclick="setTheme('light')" id="btn-theme-light" class="theme-switch-btn px-2.5 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1 text-slate-600 hover:text-slate-900 transition-all">
+                            <i data-lucide="sun" class="w-3.5 h-3.5"></i>
+                            <span class="hidden sm:inline">Beyaz</span>
+                        </button>
+                        <button onclick="setTheme('dark')" id="btn-theme-dark" class="theme-switch-btn px-2.5 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1 text-slate-600 hover:text-slate-900 transition-all">
+                            <i data-lucide="moon" class="w-3.5 h-3.5"></i>
+                            <span class="hidden sm:inline">Siyah</span>
+                        </button>
+                    </div>
+
+                    <a href="#sinif-6" class="inline-flex items-center gap-1.5 bg-orange-500 hover:bg-orange-600 text-white font-semibold text-xs sm:text-sm px-3.5 py-2 rounded-xl shadow-md">
+                        <span>6. Sınıf</span>
+                        <i data-lucide="arrow-down-right" class="w-4 h-4"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Bölümü -->
+    <section id="hero-section" class="relative overflow-hidden bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900 text-white pt-12 pb-20 lg:pt-20 lg:pb-28">
+        <div class="absolute top-0 left-1/4 w-96 h-96 bg-teal-500/20 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="absolute bottom-0 right-1/4 w-96 h-96 bg-orange-500/15 rounded-full blur-3xl pointer-events-none"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                
+                <!-- Sol Karşılama Metni -->
+                <div class="lg:col-span-7 text-center lg:text-left">
+                    <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-teal-500/15 border border-teal-400/30 text-teal-400 text-xs font-semibold mb-6">
+                        <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
+                        <span>8 Temel Branş • Birebir Rehberlik • 6. Sınıf Özel • PDF Test İndirme</span>
+                    </div>
+                    
+                    <h1 class="font-heading text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight leading-tight mb-4" id="welcome-user-title">
+                        Merhaba <span id="display-username" class="text-transparent bg-clip-text bg-gradient-to-r from-teal-400 via-emerald-400 to-amber-400">Öğrenci</span> ! 😍
+                    </h1>
+                    
+                    <p class="text-slate-300 text-base sm:text-lg max-w-2xl mx-auto lg:mx-0 leading-relaxed mb-8">
+                        Ben <strong class="text-white">Sertaç</strong>. Matematiğin mantığından kodlamanın büyüsüne, 6. sınıf müfredatından konu testlerine kadar tüm derslerde adım adım yanındayım. İster ekrandan çöz, ister testleri PDF olarak indir!
+                    </p>
+
+                    <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
+                        <a href="#sinif-6" class="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 bg-teal-500 hover:bg-teal-400 text-slate-950 font-bold px-7 py-3.5 rounded-2xl shadow-lg transition-all">
+                            <i data-lucide="layers" class="w-5 h-5"></i>
+                            <span>Dersleri Keşfet</span>
+                        </a>
+                        <a href="#calisma-alani" class="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 bg-white/10 hover:bg-white/15 border border-white/15 text-white font-semibold px-6 py-3.5 rounded-2xl transition-all">
+                            <i data-lucide="clock" class="w-5 h-5 text-orange-400"></i>
+                            <span>Çalışma & Alarm Alanı</span>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-5">
+                    <div id="hero-card" class="bg-slate-800/80 backdrop-blur-md border border-slate-700/80 rounded-3xl p-6 sm:p-8 shadow-2xl relative">
+                        <div class="flex items-center gap-4 mb-6">
+                            <div class="w-20 h-20 rounded-2xl bg-gradient-to-tr from-teal-500 to-blue-600 p-1 shadow-lg shrink-0">
+                                <div class="w-full h-full bg-slate-900 rounded-xl flex items-center justify-center">
+                                    <i data-lucide="user-check" class="w-8 h-8 text-amber-400"></i>
+                                </div>
+                            </div>
+                            <div>
+                                <h2 class="font-heading text-xl font-bold text-white">Sertaç Hoca</h2>
+                                <div class="flex items-center gap-2 mt-0.5">
+                                    <span class="text-teal-400 text-sm font-medium">Eğitim Koçu</span>
+                                    <span class="bg-teal-500/20 text-teal-300 text-[10px] font-extrabold px-2 py-0.5 rounded-full border border-teal-500/30">Birebir Rehber</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <blockquote id="hero-quote" class="bg-slate-900/70 border-l-4 border-teal-500 rounded-r-2xl p-4 text-sm text-slate-300 italic leading-relaxed mb-6">
+                            "Her dersin kendi özgün ruhu ve harika bir mantığı vardır. Logolarımızla dersleri daha da eğlenceli kılıyoruz!"
+                        </blockquote>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. Sınıf Dersler ve Özel Logolar -->
+    <section id="sinif-6" class="py-16 bg-gradient-to-b from-teal-500/5 to-transparent border-b border-slate-200/70">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-8">
+                <div>
+                    <span class="px-3.5 py-1 rounded-full bg-orange-500/15 text-orange-600 font-bold text-xs uppercase tracking-wider">
+                        6. Sınıf Müfredat Merkezi • Logolu Dersler
+                    </span>
+                    <h2 class="font-heading text-3xl sm:text-4xl font-extrabold text-slate-900 mt-3">
+                        6. Sınıf Dersleri ve Konu Anlatımları
+                    </h2>
+                    <p class="text-slate-600 text-sm sm:text-base mt-2">
+                        Her ders için özel tasarlanmış logolar, 4 ünite konu notu ve 10 farklı test seçeneği!
+                    </p>
+                </div>
+
+                <div class="flex items-center gap-3">
+                    <input type="text" id="course-search-input" oninput="filterGrade6Courses()" placeholder="Ders ara..." class="bg-white border border-slate-200 rounded-2xl px-4 py-2.5 text-xs font-medium focus:outline-none focus:ring-2 focus:ring-teal-500">
+                </div>
+            </div>
+
+            <!-- Ders Kartları Grid -->
+            <div id="grade6-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+                <!-- JS ile dolacak -->
+            </div>
+
+            <div id="toggle-more-courses-container" class="mt-8 text-center">
+                <button onclick="toggleMoreCourses()" id="toggle-more-btn" class="inline-flex items-center gap-2 bg-slate-900 hover:bg-teal-600 text-white font-bold text-sm px-6 py-3 rounded-2xl shadow-md transition-all cursor-pointer">
+                    <i data-lucide="chevron-down" class="w-4 h-4" id="toggle-more-icon"></i>
+                    <span id="toggle-more-text">Daha Fazla Ders Göster (4 Ders Daha)</span>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Test Merkezi (Süreli, Sonuçlu, PDF, Yazdır, Cevap Anahtarı) -->
+    <section id="test-merkezi" class="py-16 bg-gradient-to-b from-orange-500/5 via-white to-teal-500/5 border-b border-slate-200/70">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-10">
+                <span class="px-3.5 py-1 rounded-full bg-orange-500/15 text-orange-600 font-bold text-xs uppercase tracking-wider">
+                    Süreli Test Merkezi & Karne Raporu
+                </span>
+                <h2 class="font-heading text-3xl sm:text-4xl font-extrabold text-slate-900 mt-3">
+                    Yaprak Testler ve Soru Çözüm Alanı
+                </h2>
+                <p class="text-slate-600 text-sm sm:text-base mt-2">
+                    "Süreyi Başlat" butonuna basarak 2 dakikalık soru başı sürenizi başlatın. Testi bitirince net puanınızı görün!
+                </p>
+            </div>
+
+            <div class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-xl">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6 pb-6 border-b border-slate-200">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-2">1. Ders Seçiniz:</label>
+                        <select id="central-test-course-select" onchange="onCentralCourseChange()" class="w-full bg-slate-50 border border-slate-200 rounded-2xl px-4 py-3 text-sm font-bold text-slate-900">
+                            <!-- JS ile dolacak -->
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-2">2. Test Seçiniz (1 - 10):</label>
+                        <div id="central-test-tabs" class="flex flex-wrap gap-1.5">
+                            <!-- JS ile dolacak -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex flex-wrap items-center justify-between gap-4 bg-slate-900 text-white p-4 sm:p-5 rounded-2xl mb-6">
+                    <div>
+                        <span id="central-test-badge" class="px-2.5 py-0.5 rounded-md bg-teal-500/20 text-teal-300 text-xs font-bold">Test 1</span>
+                        <h4 id="central-test-title" class="font-heading font-extrabold text-base sm:text-lg mt-1">Ders Testi</h4>
+                    </div>
+
+                    <div class="flex flex-wrap items-center gap-3">
+                        <div class="bg-slate-800 border border-slate-700 px-4 py-2 rounded-xl flex items-center gap-3">
+                            <span class="text-xs text-slate-400">Süre:</span>
+                            <span id="central-test-timer" class="font-heading font-extrabold text-teal-400 text-sm">20:00</span>
+                            <button onclick="startCentralTimer()" id="start-timer-btn" class="bg-teal-500 hover:bg-teal-400 text-slate-950 text-xs font-extrabold px-3 py-1.5 rounded-lg cursor-pointer">
+                                Süreyi Başlat
+                            </button>
+                        </div>
+                        <a href="#calisma-alani" class="bg-orange-600 hover:bg-orange-500 text-white font-bold text-xs px-4 py-2.5 rounded-xl">
+                            Ara Ver (Mola)
+                        </a>
+                    </div>
+                </div>
+
+                <div class="flex flex-wrap items-center justify-between gap-3 mb-6 bg-slate-50 p-4 rounded-2xl border border-slate-200">
+                    <span class="text-xs text-slate-600 font-medium">Bu testi kağıt olarak çözmek için PDF indirebilir veya yazdırabilirsiniz.</span>
+                    <div class="flex flex-wrap items-center gap-2">
+                        <button onclick="downloadCentralTestPDF()" class="bg-rose-600 hover:bg-rose-700 text-white font-bold text-xs px-4 py-2 rounded-xl cursor-pointer">PDF İndir</button>
+                        <button onclick="printCentralTest()" class="bg-slate-800 hover:bg-slate-900 text-white font-bold text-xs px-4 py-2 rounded-xl cursor-pointer">Yazdır</button>
+                        <button onclick="printCentralAnswerKey()" class="bg-teal-700 hover:bg-teal-800 text-white font-bold text-xs px-4 py-2 rounded-xl cursor-pointer">Cevap Anahtarı</button>
+                    </div>
+                </div>
+
+                <div id="central-result-banner" class="hidden mb-6 p-6 rounded-2xl bg-teal-50 border-2 border-teal-500 text-slate-900">
+                    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                        <div>
+                            <h3 class="font-heading font-extrabold text-xl text-teal-900">Tebrikler! Testi Tamamladın.</h3>
+                            <p class="text-xs sm:text-sm text-slate-700 mt-1">Sonuç karneniz aşağıda listelenmiştir.</p>
+                        </div>
+                        <div class="flex items-center gap-3 bg-white px-5 py-3 rounded-2xl border border-teal-200 shrink-0">
+                            <div class="text-center"><div class="text-[10px] uppercase font-bold text-slate-400">Doğru</div><div class="text-lg font-extrabold text-emerald-600" id="res-correct">0</div></div>
+                            <div class="w-px h-8 bg-slate-200"></div>
+                            <div class="text-center"><div class="text-[10px] uppercase font-bold text-slate-400">Yanlış</div><div class="text-lg font-extrabold text-rose-600" id="res-wrong">0</div></div>
+                            <div class="w-px h-8 bg-slate-200"></div>
+                            <div class="text-center"><div class="text-[10px] uppercase font-bold text-slate-400">Net Puan</div><div class="text-lg font-extrabold text-blue-600" id="res-score">0/100</div></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="central-quiz-container" class="space-y-6 mb-8"></div>
+
+                <div class="text-center pt-6 border-t border-slate-200">
+                    <button onclick="finishCentralTest()" id="finish-test-btn" class="bg-gradient-to-r from-orange-500 to-amber-500 text-white font-extrabold text-base px-10 py-4 rounded-2xl shadow-lg cursor-pointer">
+                        Testi Bitir ve Sonuçları Gör
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pomodoro Çalışma Sayacı, Özel Mola Süreleri (5, 10, 15 dk) ve 10 Farklı Alarm Sesi -->
+    <section id="calisma-alani" class="py-16 bg-slate-900 text-white relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center max-w-2xl mx-auto mb-12">
+                <span class="px-3.5 py-1 rounded-full bg-orange-500/20 text-orange-400 font-bold text-xs uppercase tracking-wider">
+                    Esnek Mola & 10 Farklı Alarm Sesi
+                </span>
+                <h2 class="font-heading text-3xl font-extrabold mt-3">Pomodoro Sayacı & Günlük Hedefler</h2>
+                <p class="text-slate-400 text-sm mt-2">Dilediğin mola süresini (5, 10, 15 dk) seç ve 10 farklı melodi arasından alarmını belirle!</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                
+                <!-- Sol: Pomodoro ve Alarm Ayarları -->
+                <div class="lg:col-span-6 bg-slate-800/80 border border-slate-700/80 rounded-3xl p-6 sm:p-8 shadow-xl text-center">
+                    <div class="flex flex-wrap items-center justify-between gap-3 mb-6">
+                        <div class="flex items-center gap-2">
+                            <i data-lucide="timer" class="w-5 h-5 text-teal-400"></i>
+                            <h3 class="font-heading font-bold text-lg">Pomodoro Odak Modu</h3>
+                        </div>
+
+                        <!-- Alarm Sesi Seçimi ve Testi -->
+                        <div class="flex items-center gap-2">
+                            <select id="alarm-sound-select" class="bg-slate-900 border border-slate-700 text-xs text-slate-200 rounded-xl px-3 py-2 focus:outline-none">
+                                <option value="1">1. C Majör Arpej</option>
+                                <option value="2">2. Neşeli Zil</option>
+                                <option value="3">3. Klasik Okul Zili</option>
+                                <option value="4">4. Yumuşak Çan</option>
+                                <option value="5">5. Elektronik Bip</option>
+                                <option value="6">6. Dijital Alarm</option>
+                                <option value="7">7. Huzurlu Akor</option>
+                                <option value="8">8. Yüksek Frekans</option>
+                                <option value="9">9. Melodik Çift Nota</option>
+                                <option value="10">10. Sertaç Hoca Özel</option>
+                            </select>
+                            <button onclick="testAlarmSound()" class="px-3 py-2 rounded-xl bg-teal-600 hover:bg-teal-500 text-xs font-bold text-white flex items-center gap-1 cursor-pointer" title="Seçilen Sesi Test Et">
+                                <i data-lucide="volume-2" class="w-3.5 h-3.5"></i> Ses Testi
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Mola Süreleri (5, 10, 15 dk) ve Ders Modu -->
+                    <div class="grid grid-cols-4 gap-2 bg-slate-900/80 p-1.5 rounded-2xl mb-8 border border-slate-700/50 text-xs">
+                        <button onclick="setPomodoroMode('work', 25)" id="p-mode-work" class="py-2.5 rounded-xl font-bold transition-all bg-teal-600 text-white shadow-sm">Ders (25 dk)</button>
+                        <button onclick="setPomodoroMode('shortBreak', 5)" id="p-mode-shortBreak" class="py-2.5 rounded-xl font-bold transition-all text-slate-300 hover:text-white">Mola (5 dk)</button>
+                        <button onclick="setPomodoroMode('midBreak', 10)" id="p-mode-midBreak" class="py-2.5 rounded-xl font-bold transition-all text-slate-300 hover:text-white">Mola (10 dk)</button>
+                        <button onclick="setPomodoroMode('longBreak', 15)" id="p-mode-longBreak" class="py-2.5 rounded-xl font-bold transition-all text-slate-300 hover:text-white">Mola (15 dk)</button>
+                    </div>
+
+                    <div class="mb-8">
+                        <div id="pomodoro-timer-display" class="font-heading text-6xl sm:text-7xl font-extrabold tracking-tight text-teal-400 mb-2">25:00</div>
+                        <p id="pomodoro-status-text" class="text-xs text-slate-400 uppercase tracking-widest font-semibold">Odaklanma Zamanı</p>
+                    </div>
+
+                    <div class="flex items-center justify-center gap-3">
+                        <button onclick="startPomodoro()" id="p-start-btn" class="bg-teal-500 hover:bg-teal-400 text-slate-950 font-bold px-7 py-3 rounded-2xl shadow-lg cursor-pointer flex items-center gap-2">
+                            <i data-lucide="play" class="w-4 h-4"></i> Başlat
+                        </button>
+                        <button onclick="pausePomodoro()" class="bg-slate-700 hover:bg-slate-600 text-white font-bold px-6 py-3 rounded-2xl cursor-pointer flex items-center gap-2">
+                            <i data-lucide="pause" class="w-4 h-4"></i> Duraklat
+                        </button>
+                        <button onclick="resetPomodoro()" class="bg-slate-700 hover:bg-slate-600 text-white font-bold px-5 py-3 rounded-2xl cursor-pointer" title="Sıfırla">
+                            <i data-lucide="rotate-ccw" class="w-4 h-4"></i>
+                        </button>
+                    </div>
+
+                    <div id="alarm-banner" class="hidden mt-6 p-4 rounded-2xl bg-orange-500/20 border border-orange-500/50 text-orange-300 flex items-center justify-between">
+                        <span class="text-xs font-bold flex items-center gap-2">
+                            <i data-lucide="bell" class="w-4 h-4 animate-bounce"></i> Süre Doldu! Harika çalışma.
+                        </span>
+                        <button onclick="stopAlarmSound()" class="px-3 py-1 rounded-xl bg-orange-500 text-slate-950 font-bold text-xs">Alarmı Sustur</button>
+                    </div>
+                </div>
+
+                <!-- Sağ: Günlük Hedef Listesi -->
+                <div class="lg:col-span-6 bg-slate-800/80 border border-slate-700/80 rounded-3xl p-6 sm:p-8 shadow-xl">
+                    <div class="flex items-center justify-between mb-6">
+                        <div class="flex items-center gap-2">
+                            <i data-lucide="check-square" class="w-5 h-5 text-orange-400"></i>
+                            <h3 class="font-heading font-bold text-lg">Günlük Ders Hedeflerim</h3>
+                        </div>
+                        <span id="todo-stats-text" class="text-xs text-slate-400 font-semibold">0/0 Tamamlandı</span>
+                    </div>
+
+                    <div class="flex gap-2 mb-6">
+                        <input type="text" id="todo-input" placeholder="Örn: 50 Matematik sorusu çöz..." class="flex-1 bg-slate-900 border border-slate-700 rounded-2xl px-4 py-3 text-xs sm:text-sm text-white focus:outline-none">
+                        <button onclick="addTodoItem()" class="bg-teal-500 hover:bg-teal-400 text-slate-950 font-bold px-5 py-3 rounded-2xl text-xs sm:text-sm cursor-pointer">Ekle</button>
+                    </div>
+
+                    <div id="todo-list" class="space-y-2.5 max-h-64 overflow-y-auto pr-1"></div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="hakkimizda" class="bg-slate-900 text-slate-300 py-12 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center sm:text-left flex flex-col sm:flex-row items-center justify-between gap-4">
+            <p>© 2026 Sertaç ile Ders Eğitim Portalı. Tüm hakları saklıdır.</p>
+            <p class="text-slate-400">"Logolarımızla ve profesyonel mola sistemimizle başarıya!"</p>
+        </div>
+    </footer>
+
+    <!-- Konu Notları Modal -->
+    <div id="course-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-3 sm:p-6 bg-slate-950/75 backdrop-blur-sm">
+        <div class="bg-white w-full max-w-4xl max-h-[90vh] rounded-3xl shadow-2xl overflow-hidden flex flex-col">
+            <div id="modal-header" class="p-5 sm:p-7 text-white flex items-start justify-between gap-4 bg-slate-900">
+                <div class="flex items-center gap-4">
+                    <div id="modal-icon-box" class="w-14 h-14 rounded-2xl bg-white/20 flex items-center justify-center shrink-0"></div>
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <span class="text-[11px] font-bold uppercase tracking-wider bg-white/20 px-2.5 py-0.5 rounded-full">6. Sınıf Konu Notları</span>
+                            <span id="modal-progress-badge" class="text-[11px] font-bold bg-black/25 px-2.5 py-0.5 rounded-full">0/0 Bölüm Tamamlandı</span>
+                        </div>
+                        <h3 id="modal-title" class="font-heading text-2xl sm:text-3xl font-extrabold mt-1">Ders Adı</h3>
+                    </div>
+                </div>
+                <button onclick="closeModal()" class="w-10 h-10 rounded-xl bg-white/15 flex items-center justify-center text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
+            </div>
+
+            <div class="p-5 sm:p-8 overflow-y-auto space-y-6">
+                <div>
+                    <h4 class="font-heading font-bold text-slate-900 text-lg flex items-center gap-2 mb-4">
+                        <i data-lucide="book-marked" class="w-5 h-5 text-teal-600"></i> Üniteler & Konu Notları
+                    </h4>
+                    <div id="modal-chapters" class="space-y-3"></div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="bg-slate-50 border border-slate-200 rounded-2xl p-5">
+                        <h4 class="font-heading font-bold text-slate-900 text-base mb-2">Sertaç Hoca'dan Hap Bilgi</h4>
+                        <p id="modal-tip-text" class="text-slate-600 text-xs sm:text-sm"></p>
+                    </div>
+                    <div class="bg-slate-50 border border-slate-200 rounded-2xl p-5">
+                        <h4 class="font-heading font-bold text-slate-900 text-base mb-2">Birebir Rehberlik Tavsiyesi</h4>
+                        <p id="modal-summary-text" class="text-slate-600 text-xs sm:text-sm"></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="px-6 py-4 bg-slate-50 border-t border-slate-200 flex justify-end">
+                <button onclick="closeModal()" class="bg-slate-900 text-white text-xs font-semibold px-6 py-2.5 rounded-xl">Kapat</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Yazdırma İçin Gizli Alan -->
+    <div id="pdf-print-area" class="hidden"></div>
+
+    <!-- Script -->
+    <script>
+        function setTheme(theme) {
+            document.body.classList.remove('theme-dark', 'theme-light', 'theme-original');
+            if (theme === 'dark') document.body.classList.add('theme-dark');
+            else if (theme === 'light') document.body.classList.add('theme-light');
+            localStorage.setItem('sertac_portal_theme', theme);
+        }
+
+        // 8 Branş Logoları ve Veritabanı
+        const coursesData = [
+            {
+                id: 'matematik',
+                title: 'Matematik',
+                icon: 'calculator',
+                badgeColor: 'bg-teal-50 text-teal-700 border border-teal-200',
+                colorBg: 'bg-teal-50',
+                colorText: 'text-teal-600',
+                colorBorder: 'border-slate-200',
+                headerGradient: 'from-teal-900 via-teal-800 to-slate-900',
+                grade6Topic: 'Doğal Sayılar, Çarpanlar, Katlar, Kümeler, Tam Sayılar, Kesirler ve Cebir.',
+                summary: 'Matematik evrenin dilidir. Mantığını kavrayarak zirveye çık.',
+                tip: 'Verileri ve isteneni dikkatlice not et!',
+                quizPool: [
+                    { question: '48 sayısının asal çarpanları nelerdir?', options: ['2 ve 3', '2, 3 ve 5', '3 ve 7', '2 ve 5'], correct: 0, explanation: '48 = 16 x 3 = 2⁴ x 3.' },
+                    { question: 'Aşağıdaki sayılardan hangisi 3 ile kalansız bölünür?', options: ['124', '251', '342', '512'], correct: 2, explanation: 'Rakamları toplamı 3un katı olmalıdır (3+4+2=9).' },
+                    { question: '(-12) + (+8) işleminin sonucu kaçtır?', options: ['-4', '+4', '-20', '+20'], correct: 0, explanation: 'Mutlak değerce büyük olandan küçük çıkarılır, işaret yazılır.' },
+                    { question: 'Bir küpün kaç tane ayrıtı vardır?', options: ['6', '8', '12', '16'], correct: 2, explanation: 'Küpün 12 ayrıtı, 8 köşesi ve 6 yüzü vardır.' },
+                    { question: '3/4 kesrinin 12 ile çarpımı kaçtır?', options: ['6', '9', '12', '16'], correct: 1, explanation: '12 / 4 = 3, 3 x 3 = 9.' },
+                    { question: 'En küçük asal sayı hangisidir?', options: ['0', '1', '2', '3'], correct: 2, explanation: 'En küçük ve çift olan tek asal sayı 2dir.' },
+                    { question: '100 sayısının %20si kaçtır?', options: ['10', '20', '30', '40'], correct: 1, explanation: '100 x 20 / 100 = 20.' },
+                    { question: 'Çevresi 36 cm olan bir karenin bir kenarı kaç cm dir?', options: ['6', '9', '12', '18'], correct: 1, explanation: '36 / 4 = 9 cm.' },
+                    { question: '(-5) x (-4) işleminin sonucu nedir?', options: ['-20', '+20', '-9', '+9'], correct: 1, explanation: 'İki negatif sayının çarpımı pozitif (+) olur.' },
+                    { question: '0,75 ondalık gösteriminin kesir olarak en sade hali nedir?', options: ['1/2', '3/4', '2/3', '4/5'], correct: 1, explanation: '75/100 sadeleşirse 3/4 olur.' }
+                ],
+                chapters: [
+                    { id: 'm1', unit: '1. Ünite', title: 'Üslü İfadeler ve İşlem Önceliği', duration: '40 Dk', level: 'Temel', desc: 'Üslü nicelikler hesaplama.', notes: 'Parantez içi -> Üslü ifadeler -> Çarpma/Bölme -> Toplama/Çıkarma.' },
+                    { id: 'm2', unit: '2. Ünite', title: 'Çarpanlar ve Katlar', duration: '45 Dk', level: 'Orta', desc: 'Asal sayılar ve bölenler.', notes: 'En küçük asal sayı 2’dir.' },
+                    { id: 'm3', unit: '3. Ünite', title: 'Kümeler ve Tam Sayılar', duration: '40 Dk', level: 'Temel', desc: 'Negatif ve pozitif tam sayılar.', notes: 'Mutlak değer daima pozitiftir.' },
+                    { id: 'm4', unit: '4. Ünite', title: 'Kesirlerle İşlemler', duration: '50 Dk', level: 'İleri', desc: 'Kesirlerde toplama, çarpma ve bölme.', notes: 'Paylar kendi arasında çarpılır.' }
+                ]
+            },
+            {
+                id: 'turkce',
+                title: 'Türkçe',
+                icon: 'book-open',
+                badgeColor: 'bg-blue-50 text-blue-700 border border-blue-200',
+                colorBg: 'bg-blue-50',
+                colorText: 'text-blue-600',
+                colorBorder: 'border-slate-200',
+                headerGradient: 'from-blue-900 via-indigo-900 to-slate-900',
+                grade6Topic: 'Sözcükte Anlam, Paragraf, İsimler, Zamirler ve Yazım Kuralları.',
+                summary: 'Türkçe dersi okuduğunu anlama ve ifade etme sanatıdır.',
+                tip: 'Paragrafta ana düşünceyi bulmak için yazarın mesajına odaklan.',
+                quizPool: [
+                    { question: 'Hangisinde öznel yargı vardır?', options: ['Ankara başkentedir.', 'Romanda olaylar Ege’de geçer.', 'Yazarın akıcı bir üslubu var.', 'Sınavda 20 soru soruldu.'], correct: 2, explanation: 'Akıcı üslup kişiden kişiye değişir.' },
+                    { question: '"Ağzından bal damlamak" deyiminin anlamı nedir?', options: ['Çok tatlı yemek', 'Güzel ve tatlı sözler söylemek', 'Çok konuşmak', 'Küs olmak'], correct: 1, explanation: 'Tatlı dilli olmak anlamına gelir.' },
+                    { question: 'Aşağıdaki sözcüklerden hangisi türemiş yapılıdır?', options: ['Kitaplık', 'Masa', 'Kalem', 'Silgi'], correct: 0, explanation: 'Kitap kök, -lık yapım eki almıştır.' },
+                    { question: 'Hangisinde yazım yanlışı vardır?', options: ['Herkes geldi', 'Yalnız kaldı', 'Ankaraya gitti', 'Birçok insan'], correct: 2, explanation: 'Özel adlara gelen ekler kesmeyle ayrılır: Ankara\'ya.' },
+                    { question: '"O, bu masayı çok beğendi" cümlesinde "O" sözcüğü türü nedir?', options: ['İsim', 'Zamir', 'Sıfat', 'Zarf'], correct: 1, explanation: 'İsmin yerine kullanıldığı için kişi zamiridir.' },
+                    { question: 'Aşağıdakilerden hangisi terim anlamlı bir sözcüktür?', options: ['Perdeyi aç', 'Sahneye çıktı', 'Gol attı', 'Topu tuttu'], correct: 2, explanation: 'Gol terimi futbol terimidir.' },
+                    { question: '"Hızlıca koşarak uzaklaştı" cümlesinde zarf hangi sorunun cevabıdır?', options: ['Nasıl', 'Ne zaman', 'Nereye', 'Ne kadar'], correct: 0, explanation: 'Nasıl uzaklaştı? Hızlıca.' },
+                    { question: 'Aşağıdaki cümlelerin hangisinde "ile" bağlaç olarak kullanılmamıştır?', options: ['Ahmet ile Mehmet geldi', 'Kalem ile defter aldı', 'Okula otobüs ile gitti', 'Kitap ile dergi okudu'], correct: 2, explanation: 'Burada edat (araç) görevindedir.' },
+                    { question: '"Tatlı" sözcüğü hangi cümlede mecaz anlamda kullanılmıştır?', options: ['Tatlı elma yedim', 'Tatlı su içtik', 'Tatlı dille bizi ikna etti', 'Tatlı kavun seçtik'], correct: 2, explanation: 'Tatlı dil sevimli, hoş konuşma anlamındadır.' },
+                    { question: 'Aşağıdaki noktalama işaretlerinden hangisi bitmemiş cümlelerin sonuna konur?', options: ['Nokta', 'Üç nokta', 'Soru işareti', 'Virgül'], correct: 1, explanation: 'Üç nokta (...) tamamlanmamış cümleler içindir.' }
+                ],
+                chapters: [
+                    { id: 't1', unit: '1. Ünite', title: 'Sözcükte ve Cümlede Anlam', duration: '40 Dk', level: 'Temel', desc: 'Gerçek, mecaz ve deyimler.', notes: 'Neden-sonuç ve amaç-sonuç farkına dikkat.' },
+                    { id: 't2', unit: '2. Ünite', title: 'Paragraf Yorumu', duration: '50 Dk', level: 'Orta', desc: 'Ana düşünce ve yardımcı düşünce.', notes: 'Önce soru kökünü okuyun.' },
+                    { id: 't3', unit: '3. Ünite', title: 'İsimler ve Zamirler', duration: '45 Dk', level: 'Temel', desc: 'Varlıkların türüne göre adlar.', notes: 'Zamir ismin yerini tutar.' },
+                    { id: 't4', unit: '4. Ünite', title: 'Yazım Kuralları', duration: '40 Dk', level: 'İleri', desc: 'De/da ve ki’nin yazılışı.', notes: 'Bağlaç olan de ayrı yazılır.' }
+                ]
+            },
+            {
+                id: 'fen',
+                title: 'Fen Bilimleri',
+                icon: 'atom',
+                badgeColor: 'bg-emerald-50 text-emerald-700 border border-emerald-200',
+                colorBg: 'bg-emerald-50',
+                colorText: 'text-emerald-600',
+                colorBorder: 'border-slate-200',
+                headerGradient: 'from-emerald-900 via-teal-900 to-slate-900',
+                grade6Topic: 'Güneş Sistemi, Vücudumuzdaki Sistemler, Kuvvet ve Madde.',
+                summary: 'Doğayı ve evreni keşfetme serüveni.',
+                tip: 'Kavramları günlük hayattaki örnekleriyle bağdaştır!',
+                quizPool: [
+                    { question: 'Yemek borusu hangi sindirimi yapar?', options: ['Kimyasal', 'Fiziksel', 'Sindirim yapmaz', 'Mekanik'], correct: 2, explanation: 'Yemek borusu sadece iletim yapar.' },
+                    { question: 'Aşağıdaki gezegenlerden hangisi karasal gezegendir?', options: ['Jüpiter', 'Satürn', 'Mars', 'Neptün'], correct: 2, explanation: 'Mars iç gezegen (karasal) grubundadır.' },
+                    { question: 'Kanın vücutta pompalanmasını sağlayan organ hangisidir?', options: ['Akciğer', 'Kalp', 'Böbrek', 'Karaciğer'], correct: 1, explanation: 'Kalp kanı pompalar.' },
+                    { question: 'Yoğunluk formülü aşağıdakilerden hangisidir?', options: ['d = m / V', 'd = V / m', 'd = m x V', 'd = m - V'], correct: 0, explanation: 'Yoğunluk = Kütle / Hacimdir.' },
+                    { question: 'Güneş tutulmasında hangi gök cismi ortadadır?', options: ['Dünya', 'Güneş', 'Ay', 'Mars'], correct: 2, explanation: 'Ay, Güneş ile Dünya arasına girer.' },
+                    { question: 'İdrar oluşturan ana organ aşağıdakilerden hangisidir?', options: ['Kalp', 'Böbrek', 'Mide', 'Pankreas'], correct: 1, explanation: 'Böbrekler kanı süzerek idrar üretir.' },
+                    { question: 'Aşağıdakilerden hangisi bir kuvvet birimidir?', options: ['Joule', 'Newton', 'Watt', 'Kilogram'], correct: 1, explanation: 'Kuvvet Newton (N) ile ölçülür.' },
+                    { question: 'Hangi organımızda hem fiziksel hem kimyasal sindirim gerçekleşir?', options: ['Mide', 'Yemek borusu', 'Yutak', 'Kalın bağırsak'], correct: 0, explanation: 'Midede hem çalkalama hem asitli kimyasal sindirim olur.' },
+                    { question: 'Ses en hızlı hangi ortamda yayılır?', options: ['Katı', 'Sıvı', 'Gaz', 'Boşluk'], correct: 0, explanation: 'Tanecikler birbirine en yakın olduğu için katıdadır.' },
+                    { question: 'Güneş sistemine en uzak olan gezegen hangisidir?', options: ['Mars', 'Neptün', 'Venüs', 'Dünya'], correct: 1, explanation: 'Neptün en dıştaki gezegendir.' }
+                ],
+                chapters: [
+                    { id: 'f1', unit: '1. Ünite', title: 'Güneş Sistemi ve Tutulmalar', duration: '45 Dk', level: 'Temel', desc: 'Gezegenler ve tutulma olayları.', notes: 'Güneş tutulmasında Ay ortadadır.' },
+                    { id: 'f2', unit: '2. Ünite', title: 'Vücudumuzdaki Sistemler', duration: '55 Dk', level: 'Orta', desc: 'Sindirim, solunum ve dolaşım.', notes: 'Küçük kan dolaşımı akciğerde gerçekleşir.' },
+                    { id: 'f3', unit: '3. Ünite', title: 'Kuvvet ve Hareket', duration: '40 Dk', level: 'Temel', desc: 'Bileşke kuvvet hesabı.', notes: 'Zıt yönlü kuvvetler çıkarılır.' },
+                    { id: 'f4', unit: '4. Ünite', title: 'Maddenin Tanecikli Yapısı', duration: '45 Dk', level: 'İleri', desc: 'Yoğunluk hesaplamaları.', notes: 'Yoğunluk d = m / V.' }
+                ]
+            },
+            {
+                id: 'sosyal',
+                title: 'Sosyal Bilgiler',
+                icon: 'globe',
+                badgeColor: 'bg-amber-50 text-amber-700 border border-amber-200',
+                colorBg: 'bg-amber-50',
+                colorText: 'text-amber-600',
+                colorBorder: 'border-slate-200',
+                headerGradient: 'from-amber-900 via-orange-900 to-slate-900',
+                grade6Topic: 'Tarihî Yolculuk, Yeryüzünde Yaşam, Ülkemiz ve Ekonomi.',
+                summary: 'Geçmişimizi ve coğrafyamızı öğrenme rehberi.',
+                tip: 'Harita okuma becerini geliştir!',
+                quizPool: [
+                    { question: 'Orhun Kitabeleri kime aittir?', options: ['Hunlar', 'II. Kök Türkler', 'Uygurlar', 'Karahanlılar'], correct: 1, explanation: 'II. Kök Türk Devleti dönemindedir.' },
+                    { question: 'Anadolu’nun kapılarını Türklere açan savaş hangisidir?', options: ['Pasinler', 'Malazgirt', 'Miryokefalon', 'Kösedağ'], correct: 1, explanation: '1071 Malazgirt Zaferi.' },
+                    { question: 'Türkiye\'nin matematik konumuna göre hangi yarımkürededir?', options: ['Güney ve Batı', 'Kuzey ve Doğu', 'Güney ve Doğu', 'Kuzey ve Batı'], correct: 1, explanation: 'Kuzey yarımküre ve Doğu meridyenlerindedir.' },
+                    { question: 'İlk Türk yazılı belgeleri olan Orhun Yazıtları hangi nehir kıyısındadır?', options: ['Orhun', 'Amuderya', 'Seyhun', 'İdil'], correct: 0, explanation: 'Orhun Nehri kıyısındadır.' },
+                    { question: 'Aşağıdakilerden hangisi bir üretim faaliyetidir?', options: ['Mağazadan ayakkabı almak', 'Tarlaya buğday ekmek', 'Marketten ekmek yemek', 'Bilgisayar oynamak'], correct: 1, explanation: 'Tarlaya ekmek üretmektir.' },
+                    { question: 'Karadeniz ikliminin en belirgin özelliği nedir?', options: ['Yazları kurak ve sıcak', 'Her mevsim yağışlı', 'Kışları çok kurak', 'Çöl iklimi'], correct: 1, explanation: 'Her mevsim yağış alır.' },
+                    { question: 'Uygur devletinin yerleşik hayata geçmesini sağlayan din hangisidir?', options: ['İslamiyet', 'Maniheizm', 'Budizm', 'Şamanizm'], correct: 1, explanation: 'Maniheizm dini etsiz yemeyi emrettiği için tarım ve yerleşime geçtiler.' },
+                    { question: 'Türkiye’nin en yüksek dağı hangisidir?', options: ['Erciyes', 'Kaçkar', 'Ağrı Dağı', 'Süphan'], correct: 2, explanation: 'Ağrı Dağı en yüksek dağımızdır.' },
+                    { question: 'İpek Yolu hangi kıtaları birbirine bağlar?', options: ['Asya ve Avrupa', 'Afrika ve Amerika', 'Avustralya ve Asya', 'Antarktika'], correct: 0, explanation: 'Asya’yı Avrupa’ya bağlayan ticaret yoludur.' },
+                    { question: 'Hangisi kültürel özelliklerimizden biri değildir?', options: ['Halı dokumacılığı', 'Lokum ikramı', 'Futbol oynamak', 'Kerpiç evler'], correct: 2, explanation: 'Futbol evrensel bir spordur.' }
+                ],
+                chapters: [
+                    { id: 's1', unit: '1. Ünite', title: 'Biz ve Toplum', duration: '40 Dk', level: 'Temel', desc: 'Hak, sorumluluk ve önyargılar.', notes: 'Önyargı iletişimi bozar.' },
+                    { id: 's2', unit: '2. Ünite', title: 'Türklerin Tarihî Yolculuğu', duration: '50 Dk', level: 'Orta', desc: 'Orta Asya ve Malazgirt Zaferi.', notes: '1071 Malazgirt ile Anadolu açıldı.' },
+                    { id: 's3', unit: '3. Ünite', title: 'Yeryüzünde Yaşam', duration: '45 Dk', level: 'Temel', desc: 'İklimler ve haritalar.', notes: 'Karadeniz her mevsim yağışlıdır.' },
+                    { id: 's4', unit: '4. Ünite', title: 'Ekonomik Hayat', duration: '45 Dk', level: 'İleri', desc: 'Üretim, dağıtım ve tüketim.', notes: 'Patent buluşu korur.' }
+                ]
+            },
+            {
+                id: 'din',
+                title: 'Din Kültürü',
+                icon: 'book',
+                badgeColor: 'bg-purple-50 text-purple-700 border border-purple-200',
+                colorBg: 'bg-purple-50',
+                colorText: 'text-purple-600',
+                colorBorder: 'border-slate-200',
+                headerGradient: 'from-purple-900 via-indigo-900 to-slate-900',
+                grade6Topic: 'Peygamberler, İlahi Kitaplar ve Namaz İbadeti.',
+                summary: 'Güzel ahlak ve dini değerler.',
+                tip: 'İbadetlerin inceliklerini günlük yaşantına yansıt.',
+                quizPool: [
+                    { question: 'Namazın her rekâtında okunan sure hangisidir?', options: ['İhlas', 'Fatiha', 'Kevser', 'Nas'], correct: 1, explanation: 'Fatiha suresi her rekâtta okunur.' },
+                    { question: 'İlahi kitapların gönderiliş amacı aşağıdakilerden hangisidir?', options: ['İnsanları zengin etmek', 'Doğru yolu göstermek', 'Tarih öğretmek', 'Bilimsel formül vermek'], correct: 1, explanation: 'İnsanlara rehberlik etmek içindir.' },
+                    { question: 'Günde kaç vakit namaz farzdır?', options: ['3', '4', '5', '6'], correct: 2, explanation: 'Günde 5 vakit namaz farzdır.' },
+                    { question: 'Hz. Muhammed’in doğduğu şehir neresidir?', options: ['Medine', 'Kudüs', 'Mekke', 'Taif'], correct: 2, explanation: 'Mekke’de doğmuştur.' },
+                    { question: 'Aşağıdakilerden hangisi peygamberlerin sıfatlarından biri değildir?', options: ['Sıdk', 'Emanet', 'Cimrilik', 'Fetanet'], correct: 2, explanation: 'Cimrilik peygamber sıfatı olamaz.' },
+                    { question: 'Hicret hangi yıl gerçekleşmiştir?', options: ['571', '610', '622', '632'], correct: 2, explanation: '622 yılında Mekke’den Medine’ye göç edilmiştir.' },
+                    { question: 'Kuran-ı Kerim hangi gecede indirilmeye başlanmıştır?', options: ['Kadir Gecesi', 'Berat Kandili', 'Mevlid Kandili', 'Miraç Kandili'], correct: 0, explanation: 'Kadir Gecesi’nde indirilmiştir.' },
+                    { question: 'Zekat kimlere verilir?', options: ['Devlet başkanına', 'İhtiyaç sahiplerine', 'Yabancılara', 'Zenginlere'], correct: 1, explanation: 'İhtiyaç sahibi fakirlere verilir.' },
+                    { question: 'Aşağıdakilerden hangisi namazı bozan durumlardan biridir?', options: ['Gözü kapatmak', 'Konuşmak', 'Esnemek', 'Derin nefes almak'], correct: 1, explanation: 'Namazda konuşmak namazı bozar.' },
+                    { question: 'İlk ilahi kitap kime indirilmiştir?', options: ['Hz. Musa', 'Hz. İbrahim', 'Hz. Adem', 'Hz. Davud'], correct: 1, explanation: 'Hz. İbrahim’e suhflar (sahifeler) verilmiştir.' }
+                ],
+                chapters: [
+                    { id: 'd1', unit: '1. Ünite', title: 'İlahi Kitap İnancı', duration: '40 Dk', level: 'Temel', desc: 'Peygamberlerin özellikleri.', notes: 'Sıdk, emanet, tebliğ, fetanet, ismet.' },
+                    { id: 'd2', unit: '2. Ünite', title: 'Namaz İbadeti', duration: '45 Dk', level: 'Orta', desc: 'Namazın şartları ve kılınışı.', notes: 'Günde 5 vakit farzdır.' },
+                    { id: 'd3', unit: '3. Ünite', title: 'Hz. Muhammed’in Hayatı', duration: '40 Dk', level: 'Temel', desc: 'Hicret ve Medine dönemi.', notes: '622 yılında Hicret gerçekleşti.' },
+                    { id: 'd4', unit: '4. Ünite', title: 'Zararlı Alışkanlıklar', duration: '45 Dk', level: 'İleri', desc: 'Kötü alışkanlıklardan korunma.', notes: 'Aklı korumak temel esastır.' }
+                ]
+            },
+            {
+                id: 'ingilizce',
+                title: 'İngilizce',
+                icon: 'languages',
+                badgeColor: 'bg-rose-50 text-rose-700 border border-rose-200',
+                colorBg: 'bg-rose-50',
+                colorText: 'text-rose-600',
+                colorBorder: 'border-slate-200',
+                headerGradient: 'from-rose-900 via-pink-900 to-slate-900',
+                grade6Topic: 'Life, Breakfast, Weather, Bookworms and Sports.',
+                summary: 'Dünyayla iletişim kurmanın anahtarı.',
+                tip: 'Kelimeleri cümle içinde pratik yap.',
+                quizPool: [
+                    { question: 'What is the weather like when it is freezing?', options: ['Hot', 'Sunny', 'Snowy and cold', 'Warm'], correct: 2, explanation: 'Freezing dondurucu ve karlı demektir.' },
+                    { question: 'Which one is for breakfast?', options: ['Hamburger', 'Cheese and olives', 'Soup', 'Fish'], correct: 1, explanation: 'Peynir ve zeytin kahvaltıda yenir.' },
+                    { question: 'What time does he get up? (07:30)', options: ['Seven oclock', 'Half past seven', 'Quarter past seven', 'Quarter to seven'], correct: 1, explanation: 'Half past seven (7:30).' },
+                    { question: 'Which animal lives in jungle and likes bananas?', options: ['Monkey', 'Penguin', 'Bear', 'Camel'], correct: 0, explanation: 'Maymun muz sever.' },
+                    { question: 'How is the weather in rainy days?', options: ['Wet', 'Sunny', 'Hot', 'Dry'], correct: 0, explanation: 'Rainy days are wet.' },
+                    { question: 'What do we wear when it is snowy?', options: ['T-shirt', 'Coat and boots', 'Shorts', 'Sunglasses'], correct: 1, explanation: 'Kaban ve bot giyilir.' },
+                    { question: 'Which one is an indoor sport?', options: ['Football', 'Basketball', 'Swimming (indoor)', 'Chess'], correct: 3, explanation: 'Satranç tamamen kapalı alandır.' },
+                    { question: 'What do you do in the evening?', options: ['Wake up', 'Have dinner', 'Get up', 'Wash face'], correct: 1, explanation: 'Akşam yemeği yenir (have dinner).' },
+                    { question: 'Translate: "Büyükelçilik" -> Kidding, translate "Library"', options: ['Okul', 'Kütüphane', 'Hastane', 'Park'], correct: 1, explanation: 'Library kütüphane demektir.' },
+                    { question: 'Choose the correct plural: "Child"', options: ['Childs', 'Children', 'Childes', 'Child'], correct: 1, explanation: 'Düzensiz çoğul: Children.' }
+                ],
+                chapters: [
+                    { id: 'i1', unit: '1. Ünite', title: 'Life (Daily Routines)', duration: '40 Dk', level: 'Temel', desc: 'Simple Present Tense.', notes: 'He/She/It ile fiil -s takısı alır.' },
+                    { id: 'i2', unit: '2. Ünite', title: 'Yummy Breakfast', duration: '45 Dk', level: 'Temel', desc: 'Some and Any usage.', notes: 'Olumlu cümlelerde some kullanılır.' },
+                    { id: 'i3', unit: '3. Ünite', title: 'Weather and Emotions', duration: '40 Dk', level: 'Orta', desc: 'Hava durumu ve duygular.', notes: 'Scared, happy, excited.' },
+                    { id: 'i4', unit: '4. Ünite', title: 'Saving the Planet', duration: '45 Dk', level: 'İleri', desc: 'Comparative adjectives.', notes: 'Kısa sıfatlara -er eklenir.' }
+                ]
+            },
+            {
+                id: 'almanca',
+                title: 'Almanca',
+                icon: 'book-marked',
+                badgeColor: 'bg-indigo-50 text-indigo-700 border border-indigo-200',
+                colorBg: 'bg-indigo-50',
+                colorText: 'text-indigo-600',
+                colorBorder: 'border-slate-200',
+                headerGradient: 'from-indigo-900 via-blue-900 to-slate-900',
+                grade6Topic: 'Hallo!, Schulsachen, Familie und Hobbys.',
+                summary: 'Avrupa’nın güçlü dili Almanca.',
+                tip: 'Kelimeleri artikelleriyle ezberle.',
+                quizPool: [
+                    { question: '"Guten Morgen" ne anlama gelir?', options: ['İyi akşamlar', 'Günaydın', 'İyi geceler', 'Hoşça kal'], correct: 1, explanation: 'Günaydın demektir.' },
+                    { question: 'Almancada "Kitap" kelimesinin artikeli nedir?', options: ['der', 'die', 'das', 'Hiçbiri'], correct: 2, explanation: 'Das Buch şeklindedir.' },
+                    { question: '12 sayısı Almancada nasıl söylenir?', options: ['Elf', 'Zwölf', 'Dreizehn', 'Vierzehn'], correct: 1, explanation: 'Zwölf (12).' },
+                    { question: '"Wie heißt du?" sorusunun anlamı nedir?', options: ['Nasılsın?', 'Adın ne?', 'Nerelisin?', 'Kaç yaşındasın?'], correct: 1, explanation: 'Adın nedir demektir.' },
+                    { question: 'Aşağıdakilerden hangisi bir okul eşyasıdır?', options: ['Tisch', 'Kuli (Kugelschreiber)', 'Apfel', 'Auto'], correct: 1, explanation: 'Tükenmez kalem (Kuli).' },
+                    { question: 'Mavi rengin Almancası nedir?', options: ['Rot', 'Gelb', 'Blau', 'Grün'], correct: 2, explanation: 'Blau mavi demektir.' },
+                    { question: '"Mutter" kelimesi Türkçe ne demektir?', options: ['Baba', 'Anne', 'Kardeş', 'Büyükanne'], correct: 1, explanation: 'Anne demektir.' },
+                    { question: 'Almancada "Danke" ne demektir?', options: ['Lütfen', 'Teşekkürler', 'Güle güle', 'Merhaba'], correct: 1, explanation: 'Teşekkürler demektir.' },
+                    { question: '10 sayısı Almancada nedir?', options: ['Neun', 'Zehn', 'Elf', 'Zwölf'], correct: 1, explanation: 'Zehn 10 demektir.' },
+                    { question: 'Güle güle anlamında kullanılan veda sözü hangisidir?', options: ['Tschüss', 'Hallo', 'Guten Tag', 'Ja'], correct: 0, explanation: 'Tschüss güle güle demektir.' }
+                ],
+                chapters: [
+                    { id: 'a1', unit: '1. Ünite', title: 'Hallo! Selamlaşma', duration: '40 Dk', level: 'Temel', desc: 'Tanışma cümleleri.', notes: 'Ich heiße Sertaç.' },
+                    { id: 'a2', unit: '2. Ünite', title: 'Schulsachen', duration: '45 Dk', level: 'Temel', desc: 'Okul eşyaları ve artikeller.', notes: 'Der, die, das yapısı.' },
+                    { id: 'a3', unit: '3. Ünite', title: 'Die Familie', duration: '40 Dk', level: 'Orta', desc: 'Aile bireyleri ve sayılar.', notes: '15 = fünfzehn.' },
+                    { id: 'a4', unit: '4. Ünite', title: 'Hobbys und Farben', duration: '45 Dk', level: 'İleri', desc: 'Hobiler ve renkler.', notes: 'Blau = mavi, gelb = sarı.' }
+                ]
+            },
+            {
+                id: 'kodlama',
+                title: 'Kodlama',
+                icon: 'code',
+                badgeColor: 'bg-cyan-50 text-cyan-700 border border-cyan-200',
+                colorBg: 'bg-cyan-50',
+                colorText: 'text-cyan-600',
+                colorBorder: 'border-slate-200',
+                headerGradient: 'from-cyan-900 via-blue-900 to-slate-900',
+                grade6Topic: 'Algoritma, Akış Şemaları, Scratch ve Değişkenler.',
+                summary: 'Bilgisayara komut verme ve oyun tasarlama sanatı.',
+                tip: 'Problemleri küçük parçalara ayır.',
+                quizPool: [
+                    { question: 'Akış şemalarında Başla/Bitir şekli nedir?', options: ['Dikdörtgen', 'Elips', 'Eşkenar Dörtgen', 'Paralelkenar'], correct: 1, explanation: 'Elips ile gösterilir.' },
+                    { question: 'Scratch programında yeşil bayrak neyi başlatır?', options: ['Oyunu kapatır', 'Kodları çalıştırır', 'Sesi keser', 'Kukla siler'], correct: 1, explanation: 'Programı ve projeyi başlatır.' },
+                    { question: 'Yazılım içerisindeki hatalara ne ad verilir?', options: ['Virus', 'Bug', 'Pixel', 'Link'], correct: 1, explanation: 'Hatalara bug denir.' },
+                    { question: 'Aşağıdakilerden hangisi bir karar (koşul) yapısı sembolüdür?', options: ['Dikdörtgen', 'Elips', 'Eşkenar Dörtgen', 'Çember'], correct: 2, explanation: 'Eşkenar dörtgen karar (Eğer) için kullanılır.' },
+                    { question: 'Scratch ana ekranında karakterlere ne ad verilir?', options: ['Kukla (Sprite)', 'Robot', 'Çizer', 'Şekil'], correct: 0, explanation: 'Kukla denir.' },
+                    { question: 'Bilgisayarın anlayabileceği dilde yazılmış komutlar bütününe ne denir?', options: ['Donanım', 'Yazılım', 'Ekran', 'Klavye'], correct: 1, explanation: 'Yazılım (Software).' },
+                    { question: 'Aşağıdakilerden hangisi bir akış şeması komutudur?', options: ['Yazdır / Oku', 'Koş', 'Zıpla', 'Uyu'], correct: 0, explanation: 'Girdi/Çıktı paralelkenar ile yapılır.' },
+                    { question: 'Sürekli tekrar işlemlerini hangi yapı ile yaparız?', options: ['Değişken', 'Döngü (Loop)', 'Sabit', 'Liste'], correct: 1, explanation: 'Döngüler ile tekrarlanır.' },
+                    { question: 'Skor tutmak için hangi hafıza elemanını kullanırız?', options: ['Değişken (Variable)', 'Arka plan', 'Ses', 'Kostüm'], correct: 0, explanation: 'Değişkenler değer saklar.' },
+                    { question: 'Algoritma kelimesi nereden gelmiştir?', options: ['El-Harezmi', 'İbni Sina', 'Einstein', 'Newton'], correct: 0, explanation: 'Büyük İslam matematikçisi El-Harezmi’den gelmiştir.' }
+                ],
+                chapters: [
+                    { id: 'k1', unit: '1. Ünite', title: 'Algoritma ve Akış Şemaları', duration: '40 Dk', level: 'Temel', desc: 'Akış şeması sembolleri.', notes: 'İşlem dikdörtgen ile gösterilir.' },
+                    { id: 'k2', unit: '2. Ünite', title: 'Scratch ile Blok Kodlama', duration: '45 Dk', level: 'Temel', desc: 'Kuklalar ve koordinatlar.', notes: 'Merkez noktası (0,0).' },
+                    { id: 'k3', unit: '3. Ünite', title: 'Değişkenler ve Koşullar', duration: '45 Dk', level: 'Orta', desc: 'Eğer... ise yapısı.', notes: 'Skor tutmak için değişken şarttır.' },
+                    { id: 'k4', unit: '4. Ünite', title: 'Döngüler ve Hata Ayıklama', duration: '50 Dk', level: 'İleri', desc: 'Sürekli tekrarla ve debugging.', notes: 'Yazılım hatalarına bug denir.' }
+                ]
+            }
+        ];
+
+        const courseTestsCache = {};
+        function getTestsForCourse(course) {
+            if (courseTestsCache[course.id]) return courseTestsCache[course.id];
+            const pool = course.quizPool;
+            const tests = [];
+            // Her test için soru sayısını 5 ile 15 arasında dinamik belirleyelim
+            const questionCounts = [6, 8, 10, 5, 12, 15, 7, 9, 11, 14];
+            
+            for (let t = 1; t <= 10; t++) {
+                const count = questionCounts[t - 1] || 10;
+                const questions = [];
+                for (let i = 0; i < count; i++) {
+                    const poolIndex = ( (t - 1) * 3 + i ) % pool.length;
+                    const item = pool[poolIndex];
+                    questions.push({
+                        number: i + 1,
+                        question: `${item.question} (Soru ${i+1})`,
+                        options: item.options,
+                        correct: item.correct,
+                        explanation: item.explanation
+                    });
+                }
+                tests.push({
+                    testNo: t,
+                    title: `Test ${t}: ${course.title} (${count} Soru)`,
+                    questions
+                });
+            }
+            courseTestsCache[course.id] = tests;
+            return tests;
+        }
+
+        let completedChapters = JSON.parse(localStorage.getItem('sertac_completed_chapters')) || [];
+        let showAllCoursesState = false;
+        let centralActiveCourseId = 'matematik';
+        let centralActiveTestIdx = 0;
+        let centralUserAnswers = {};
+        let centralTimerInterval = null;
+        let centralSecondsLeft = 10 * 60;
+        let testIsFinished = false;
+        let timerStarted = false;
+
+        function saveChapterProgress() {
+            localStorage.setItem('sertac_completed_chapters', JSON.stringify(completedChapters));
+        }
+
+        function updateOverallProgressBanner() {
+            const totalChapters = coursesData.reduce((acc, c) => acc + c.chapters.length, 0);
+            const doneChapters = completedChapters.length;
+            console.log(`Genel İlerleme: ${doneChapters} / ${totalChapters} tamamlandı.`);
+        }
+
+        function toggleMoreCourses() {
+            showAllCoursesState = !showAllCoursesState;
+            const btnText = document.getElementById('toggle-more-text');
+            const btnIcon = document.getElementById('toggle-more-icon');
+            if (showAllCoursesState) {
+                btnText.textContent = "Daha Az Göster (Daralt)";
+                btnIcon.setAttribute('data-lucide', 'chevron-up');
+            } else {
+                btnText.textContent = "Daha Fazla Ders Göster (4 Ders Daha)";
+                btnIcon.setAttribute('data-lucide', 'chevron-down');
+            }
+            renderGrade6Section();
+        }
+
+        function filterGrade6Courses() {
+            const query = (document.getElementById('course-search-input')?.value || '').toLowerCase().trim();
+            renderGrade6Section(query);
+            lucide.createIcons();
+        }
+
+        function renderGrade6Section(searchQuery = '') {
+            const g6Grid = document.getElementById('grade6-grid');
+            const toggleContainer = document.getElementById('toggle-more-courses-container');
+            if (!g6Grid) return;
+
+            let filtered = coursesData.filter(c => {
+                if (!searchQuery) return true;
+                return c.title.toLowerCase().includes(searchQuery) || c.grade6Topic.toLowerCase().includes(searchQuery);
+            });
+
+            let displayList = filtered;
+            if (!searchQuery && !showAllCoursesState) {
+                displayList = filtered.slice(0, 4);
+                if (toggleContainer) toggleContainer.style.display = 'block';
+            } else {
+                if (toggleContainer && !searchQuery) toggleContainer.style.display = 'block';
+                else if (toggleContainer && searchQuery) toggleContainer.style.display = 'none';
+            }
+
+            g6Grid.innerHTML = displayList.map(course => {
+                const doneInCourse = course.chapters.filter(ch => completedChapters.includes(ch.id)).length;
+                const totalInCourse = course.chapters.length;
+                const progressPct = Math.round((doneInCourse / totalInCourse) * 100);
+
+                return `
+                <div class="bg-white rounded-3xl p-5 border ${course.colorBorder} shadow-xs hover:shadow-lg transition-all flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="text-[11px] font-extrabold px-2.5 py-1 rounded-lg ${course.badgeColor}">6. Sınıf • 10 Test</span>
+                            <!-- Özel Ders Logosu / İkonu -->
+                            <div class="w-11 h-11 rounded-2xl ${course.colorBg} ${course.colorText} flex items-center justify-center shadow-inner">
+                                <i data-lucide="${course.icon}" class="w-6 h-6"></i>
+                            </div>
+                        </div>
+                        <h3 class="font-heading text-lg font-extrabold text-slate-900 mb-1">6. Sınıf ${course.title}</h3>
+                        <p class="text-xs text-slate-600 leading-relaxed mb-4">${course.grade6Topic}</p>
+                    </div>
+
+                    <div>
+                        <div class="mb-3.5">
+                            <div class="flex justify-between text-[11px] font-semibold text-slate-500 mb-1">
+                                <span>İlerleme</span>
+                                <span class="text-teal-600 font-bold">${doneInCourse}/${totalInCourse} (%${progressPct})</span>
+                            </div>
+                            <div class="w-full h-1.5 bg-slate-100 rounded-full overflow-hidden">
+                                <div class="h-full bg-teal-500 rounded-full" style="width: ${progressPct}%"></div>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-1.5 pt-3 border-t border-slate-100">
+                            <button onclick="openCourseModal('${course.id}')" class="bg-slate-100 hover:bg-slate-200 text-slate-800 text-[11px] font-bold py-2 px-2 rounded-xl flex items-center justify-center gap-1 cursor-pointer">
+                                <i data-lucide="book-open" class="w-3.5 h-3.5 text-teal-600"></i> Konu Notu
+                            </button>
+                            <button onclick="selectCourseInCentralTest('${course.id}')" class="bg-orange-500 hover:bg-orange-600 text-white text-[11px] font-bold py-2 px-2 rounded-xl flex items-center justify-center gap-1 cursor-pointer">
+                                <i data-lucide="file-check-2" class="w-3.5 h-3.5"></i> Test Çöz
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            }).join('');
+            lucide.createIcons();
+        }
+
+        // Test Merkezi
+        function initCentralTestCenter() {
+            const selectEl = document.getElementById('central-test-course-select');
+            if (!selectEl) return;
+            selectEl.innerHTML = coursesData.map(c => `<option value="${c.id}">6. Sınıf ${c.title}</option>`).join('');
+            selectEl.value = centralActiveCourseId;
+            loadCentralTest(centralActiveCourseId, 0);
+        }
+
+        function onCentralCourseChange() {
+            const selectEl = document.getElementById('central-test-course-select');
+            if (!selectEl) return;
+            centralActiveCourseId = selectEl.value;
+            loadCentralTest(centralActiveCourseId, 0);
+        }
+
+        function selectCourseInCentralTest(courseId) {
+            centralActiveCourseId = courseId;
+            const selectEl = document.getElementById('central-test-course-select');
+            if (selectEl) selectEl.value = courseId;
+            loadCentralTest(courseId, 0);
+            document.getElementById('test-merkezi')?.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function loadCentralTest(courseId, testIdx) {
+            centralActiveCourseId = courseId;
+            centralActiveTestIdx = testIdx;
+            centralUserAnswers = {};
+            testIsFinished = false;
+            timerStarted = false;
+
+            const course = coursesData.find(c => c.id === courseId);
+            const tests = getTestsForCourse(course);
+            const activeTest = tests[testIdx];
+
+            const tabsEl = document.getElementById('central-test-tabs');
+            tabsEl.innerHTML = tests.map((t, idx) => `
+                <button onclick="loadCentralTest('${courseId}', ${idx})" class="px-3 py-1.5 rounded-xl text-xs font-bold cursor-pointer ${idx === testIdx ? 'bg-orange-600 text-white shadow-md' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'}">
+                    T-${t.testNo}
+                </button>
+            `).join('');
+
+            document.getElementById('central-test-badge').textContent = `Test ${activeTest.testNo}`;
+            document.getElementById('central-test-title').textContent = `6. Sınıf ${course.title} - ${activeTest.title}`;
+            document.getElementById('central-result-banner').classList.add('hidden');
+            document.getElementById('finish-test-btn').style.display = 'inline-flex';
+
+            const startBtn = document.getElementById('start-timer-btn');
+            if (startBtn) {
+                startBtn.disabled = false;
+                startBtn.classList.remove('opacity-50');
+                startBtn.textContent = 'Süreyi Başlat';
+            }
+
+            // Her soruya 2 dakika (Dinamik soru sayısına göre süre hesaplanır)
+            centralSecondsLeft = activeTest.questions.length * 2 * 60;
+            if (centralTimerInterval) clearInterval(centralTimerInterval);
+            updateCentralTimerDisplay();
+
+            const quizContainer = document.getElementById('central-quiz-container');
+            quizContainer.innerHTML = activeTest.questions.map((q, qIndex) => `
+                <div class="bg-slate-50 border border-slate-200 rounded-2xl p-5" id="central-q-box-${qIndex}">
+                    <p class="font-bold text-slate-900 text-sm sm:text-base mb-3.5">
+                        <span class="text-teal-600 font-extrabold mr-1">${q.number}.</span> ${q.question}
+                    </p>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                        ${q.options.map((opt, optIndex) => `
+                            <button onclick="selectCentralOption(${qIndex}, ${optIndex})" id="central-opt-${qIndex}-${optIndex}" class="text-left text-sm font-medium p-3.5 rounded-xl bg-white border border-slate-200 hover:border-teal-500 hover:bg-teal-50/40 transition-all flex items-center gap-2.5 cursor-pointer">
+                                <span class="w-6 h-6 rounded-lg bg-slate-100 text-slate-700 font-bold text-xs flex items-center justify-center shrink-0">
+                                    ${['A', 'B', 'C', 'D'][optIndex]}
+                                </span>
+                                <span>${opt}</span>
+                            </button>
+                        `).join('')}
+                    </div>
+                    <div id="central-q-explanation-${qIndex}" class="hidden mt-3 p-3 rounded-xl text-xs sm:text-sm font-medium"></div>
+                </div>
+            `).join('');
+            lucide.createIcons();
+        }
+
+        function startCentralTimer() {
+            if (timerStarted || testIsFinished) return;
+            timerStarted = true;
+            const startBtn = document.getElementById('start-timer-btn');
+            if (startBtn) {
+                startBtn.disabled = true;
+                startBtn.classList.add('opacity-50');
+                startBtn.textContent = 'Süre Başladı';
+            }
+            if (centralTimerInterval) clearInterval(centralTimerInterval);
+            centralTimerInterval = setInterval(() => {
+                if (centralSecondsLeft > 0) {
+                    centralSecondsLeft--;
+                    updateCentralTimerDisplay();
+                } else {
+                    clearInterval(centralTimerInterval);
+                    if (!testIsFinished) finishCentralTest();
+                }
+            }, 1000);
+        }
+
+        function selectCentralOption(qIndex, optIndex) {
+            if (testIsFinished) return;
+            centralUserAnswers[qIndex] = optIndex;
+            const course = coursesData.find(c => c.id === centralActiveCourseId);
+            const activeTest = getTestsForCourse(course)[centralActiveTestIdx];
+
+            activeTest.questions[qIndex].options.forEach((_, idx) => {
+                const btn = document.getElementById(`central-opt-${qIndex}-${idx}`);
+                if (!btn) return;
+                if (idx === optIndex) {
+                    btn.className = "text-left text-sm font-bold p-3.5 rounded-xl bg-teal-600 text-white border border-teal-600 shadow-sm flex items-center gap-2.5 cursor-pointer";
+                } else {
+                    btn.className = "text-left text-sm font-medium p-3.5 rounded-xl bg-white border border-slate-200 hover:border-teal-500 transition-all flex items-center gap-2.5 cursor-pointer";
+                }
+            });
+        }
+
+        function finishCentralTest() {
+            if (testIsFinished) return;
+            testIsFinished = true;
+            if (centralTimerInterval) clearInterval(centralTimerInterval);
+
+            const course = coursesData.find(c => c.id === centralActiveCourseId);
+            const activeTest = getTestsForCourse(course)[centralActiveTestIdx];
+            let correctCount = 0;
+            let wrongCount = 0;
+
+            activeTest.questions.forEach((q, qIndex) => {
+                const userAns = centralUserAnswers[qIndex];
+                const explEl = document.getElementById(`central-q-explanation-${qIndex}`);
+
+                q.options.forEach((_, optIdx) => {
+                    const btn = document.getElementById(`central-opt-${qIndex}-${optIdx}`);
+                    if (!btn) return;
+                    btn.disabled = true;
+                    if (optIdx === q.correct) {
+                        btn.className = "text-left text-sm font-bold p-3.5 rounded-xl bg-emerald-100 border border-emerald-500 text-emerald-900 flex items-center gap-2.5";
+                    } else if (optIdx === userAns && userAns !== q.correct) {
+                        btn.className = "text-left text-sm font-medium p-3.5 rounded-xl bg-rose-100 border border-rose-500 text-rose-900 flex items-center gap-2.5";
+                    } else {
+                        btn.className = "text-left text-sm font-medium p-3.5 rounded-xl bg-white border border-slate-200 opacity-50 flex items-center gap-2.5";
+                    }
+                });
+
+                explEl.classList.remove('hidden');
+                if (userAns === q.correct) {
+                    correctCount++;
+                    explEl.className = "mt-3 p-3 rounded-xl text-xs sm:text-sm font-medium bg-emerald-100 text-emerald-900";
+                    explEl.textContent = `Doğru! ${q.explanation}`;
+                } else {
+                    wrongCount++;
+                    explEl.className = "mt-3 p-3 rounded-xl text-xs sm:text-sm font-medium bg-rose-100 text-rose-900";
+                    explEl.textContent = `Yanlış. Açıklama: ${q.explanation}`;
+                }
+            });
+
+            const score = Math.round((correctCount / activeTest.questions.length) * 100);
+            document.getElementById('res-correct').textContent = correctCount;
+            document.getElementById('res-wrong').textContent = wrongCount;
+            document.getElementById('res-score').textContent = `${score}/100`;
+
+            const banner = document.getElementById('central-result-banner');
+            banner.classList.remove('hidden');
+            document.getElementById('finish-test-btn').style.display = 'none';
+            banner.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        function updateCentralTimerDisplay() {
+            const timerEl = document.getElementById('central-test-timer');
+            if (!timerEl) return;
+            const m = Math.floor(centralSecondsLeft / 60);
+            const s = centralSecondsLeft % 60;
+            timerEl.textContent = `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+        }
+
+        // Doğrudan PDF İndirme (Blob / Dosya Kaydetme)
+        function downloadCentralTestPDF() {
+            const course = coursesData.find(c => c.id === centralActiveCourseId);
+            const test = getTestsForCourse(course)[centralActiveTestIdx];
+
+            let htmlContent = `
+                <html>
+                <head><meta charset="utf-8"><title>6. Sınıf ${course.title} - ${test.title}</title></head>
+                <body style="font-family: Arial, sans-serif; padding: 30px; color: #111;">
+                    <h1 style="color: #0f172a; text-align: center;">Sertaç ile Ders Portalı</h1>
+                    <h3 style="text-align: center; color: #0d9488;">6. Sınıf ${course.title} - ${test.title}</h3>
+                    <hr style="margin: 20px 0;">
+                    ${test.questions.map(q => `
+                        <div style="margin-bottom: 20px; padding: 15px; border: 1px solid #cbd5e1; border-radius: 8px;">
+                            <p style="font-weight: bold; font-size: 15px;">${q.number}. ${q.question}</p>
+                            <div style="margin-left: 15px; font-size: 14px;">
+                                ${q.options.map((opt, idx) => `<div style="margin-bottom: 4px;">${['A','B','C','D'][idx]}) ${opt}</div>`).join('')}
+                            </div>
+                        </div>
+                    `).join('')}
+                </body>
+                </html>
+            `;
+
+            const blob = new Blob([htmlContent], { type: 'application/pdf;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `Sertac_Ise_Ders_6Sinif_${course.title}_Test${test.testNo}.pdf`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        function printCentralTest() {
+            const course = coursesData.find(c => c.id === centralActiveCourseId);
+            const test = getTestsForCourse(course)[centralActiveTestIdx];
+            const printWin = window.open('', '_blank');
+            printWin.document.write(`
+                <html>
+                <head><title>6. Sınıf ${course.title} - ${test.title}</title></head>
+                <body style="font-family: Arial, sans-serif; padding: 20px;">
+                    <h2>6. Sınıf ${course.title} - ${test.title}</h2>
+                    <hr/>
+                    ${test.questions.map(q => `<p><b>${q.number}. ${q.question}</b><br/>${q.options.map((o, i)=>`${['A','B','C','D'][i]}) ${o}<br/>`).join('')}</p>`).join('')}
+                </body>
+                </html>
+            `);
+            printWin.document.close();
+            printWin.focus();
+            setTimeout(() => printWin.print(), 500);
+        }
+
+        function printCentralAnswerKey() {
+            const course = coursesData.find(c => c.id === centralActiveCourseId);
+            const test = getTestsForCourse(course)[centralActiveTestIdx];
+            const printWin = window.open('', '_blank');
+            printWin.document.write(`
+                <html>
+                <head><title>Cevap Anahtarı - ${course.title} Test ${test.testNo}</title></head>
+                <body style="font-family: Arial, sans-serif; padding: 20px;">
+                    <h2>Cevap Anahtarı: 6. Sınıf ${course.title} - ${test.title}</h2>
+                    <hr/>
+                    <ul>
+                        ${test.questions.map(q => `<li>Soru ${q.number}: <b>${['A','B','C','D'][q.correct]}</b> (${q.explanation})</li>`).join('')}
+                    </ul>
+                </body>
+                </html>
+            `);
+            printWin.document.close();
+            printWin.focus();
+            setTimeout(() => printWin.print(), 500);
+        }
+
+        function downloadCentralAnswerKeyPDF() {
+            const course = coursesData.find(c => c.id === centralActiveCourseId);
+            const test = getTestsForCourse(course)[centralActiveTestIdx];
+
+            let htmlContent = `
+                <html>
+                <head><meta charset="utf-8"><title>Cevap Anahtarı: 6. Sınıf ${course.title} - ${test.title}</title></head>
+                <body style="font-family: Arial, sans-serif; padding: 30px; color: #111;">
+                    <h1 style="color: #0f172a; text-align: center;">Cevap Anahtarı</h1>
+                    <h3 style="text-align: center; color: #0d9488;">6. Sınıf ${course.title} - ${test.title}</h3>
+                    <hr style="margin: 20px 0;">
+                    <div style="font-size: 16px; max-width: 400px; margin: 0 auto;">
+                        ${test.questions.map(q => `<div style="padding: 8px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between;"><span>Soru ${q.number}:</span> <strong>${['A','B','C','D'][q.correct]}</strong></div>`).join('')}
+                    </div>
+                </body>
+                </html>
+            `;
+
+            const blob = new Blob([htmlContent], { type: 'application/pdf;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `CevapAnahtari_6Sinif_${course.title}_Test${test.testNo}.pdf`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        // Pomodoro, 5-10-15 Dk Molalar ve 10 Farklı Alarm Sesi
+        let pomodoroTimer = null;
+        let pomodoroSeconds = 25 * 60;
+        let pomodoroRunning = false;
+        let audioCtx = null;
+        let alarmInterval = null;
+
+        function setPomodoroMode(mode, mins) {
+            pausePomodoro();
+            pomodoroSeconds = mins * 60;
+            updatePomodoroDisplay();
+
+            ['work', 'shortBreak', 'midBreak', 'longBreak'].forEach(m => {
+                const btn = document.getElementById(`p-mode-${m}`);
+                if (!btn) return;
+                if (m === mode) {
+                    btn.className = "py-2.5 rounded-xl font-bold transition-all bg-teal-600 text-white shadow-sm";
+                } else {
+                    btn.className = "py-2.5 rounded-xl font-bold transition-all text-slate-300 hover:text-white";
+                }
+            });
+
+            document.getElementById('pomodoro-status-text').textContent = mode === 'work' ? 'Odaklanma Zamanı' : `Dinlenme Molası (${mins} dk)`;
+        }
+
+        function updatePomodoroDisplay() {
+            const display = document.getElementById('pomodoro-timer-display');
+            if (!display) return;
+            const m = Math.floor(pomodoroSeconds / 60);
+            const s = pomodoroSeconds % 60;
+            display.textContent = `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+        }
+
+        function startPomodoro() {
+            if (pomodoroRunning) return;
+            pomodoroRunning = true;
+            pomodoroTimer = setInterval(() => {
+                if (pomodoroSeconds > 0) {
+                    pomodoroSeconds--;
+                    updatePomodoroDisplay();
+                } else {
+                    pausePomodoro();
+                    triggerAlarmSoundLoop();
+                }
+            }, 1000);
+        }
+
+        function pausePomodoro() {
+            pomodoroRunning = false;
+            clearInterval(pomodoroTimer);
+        }
+
+        function resetPomodoro() {
+            pausePomodoro();
+            pomodoroSeconds = 25 * 60;
+            updatePomodoroDisplay();
+            stopAlarmSound();
+        }
+
+        // 10 Farklı Melodi Fonksiyonu
+        function playSelectedAlarmSound() {
+            try {
+                if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                if (audioCtx.state === 'suspended') audioCtx.resume();
+
+                const soundType = parseInt(document.getElementById('alarm-sound-select')?.value || '1');
+                let frequencies = [523.25, 659.25, 783.99, 1046.50];
+
+                if (soundType === 2) frequencies = [440, 554.37, 659.25, 880];
+                else if (soundType === 3) frequencies = [800, 600, 800, 600];
+                else if (soundType === 4) frequencies = [300, 450, 600];
+                else if (soundType === 5) frequencies = [1000, 1000, 1000];
+                else if (soundType === 6) frequencies = [500, 1000, 500, 1000];
+                else if (soundType === 7) frequencies = [261.63, 329.63, 392.00, 523.25];
+                else if (soundType === 8) frequencies = [1200, 900, 1200];
+                else if (soundType === 9) frequencies = [587.33, 739.99, 880];
+                else if (soundType === 10) frequencies = [400, 500, 600, 700, 800, 1000];
+
+                frequencies.forEach((freq, index) => {
+                    const time = audioCtx.currentTime + (index * 0.18);
+                    const osc = audioCtx.createOscillator();
+                    const gain = audioCtx.createGain();
+                    osc.type = soundType === 3 ? 'sawtooth' : 'sine';
+                    osc.frequency.setValueAtTime(freq, time);
+                    gain.gain.setValueAtTime(0.001, time);
+                    gain.gain.linearRampToValueAtTime(0.2, time + 0.03);
+                    gain.gain.exponentialRampToValueAtTime(0.001, time + 0.18);
+                    osc.connect(gain);
+                    gain.connect(audioCtx.destination);
+                    osc.start(time);
+                    osc.stop(time + 0.18);
+                });
+            } catch (e) {
+                console.log(e);
+            }
+        }
+
+        function testAlarmSound() {
+            playSelectedAlarmSound();
+        }
+
+        function triggerAlarmSoundLoop() {
+            document.getElementById('alarm-banner')?.classList.remove('hidden');
+            playSelectedAlarmSound();
+            alarmInterval = setInterval(playSelectedAlarmSound, 2000);
+        }
+
+        function stopAlarmSound() {
+            if (alarmInterval) clearInterval(alarmInterval);
+            alarmInterval = null;
+            document.getElementById('alarm-banner')?.classList.add('hidden');
+        }
+
+        // Günlük Hedefler (Todo)
+        let todoItems = JSON.parse(localStorage.getItem('sertac_todos')) || [
+            { id: 1, text: '50 Matematik sorusu çöz', done: false },
+            { id: 2, text: 'İngilizce kelime tekrarı yap', done: true }
+        ];
+
+        function saveAndRenderTodos() {
+            localStorage.setItem('sertac_todos', JSON.stringify(todoItems));
+            const listEl = document.getElementById('todo-list');
+            const statsEl = document.getElementById('todo-stats-text');
+            if (!listEl || !statsEl) return;
+
+            const doneCount = todoItems.filter(i => i.done).length;
+            statsEl.textContent = `${doneCount}/${todoItems.length} Tamamlandı`;
+
+            listEl.innerHTML = todoItems.map(item => `
+                <div class="flex items-center justify-between p-3 rounded-2xl bg-slate-900 border border-slate-700">
+                    <label class="flex items-center gap-3 cursor-pointer flex-1">
+                        <input type="checkbox" ${item.done ? 'checked' : ''} onchange="toggleTodoItem(${item.id})" class="w-4 h-4 rounded text-teal-600 bg-slate-800">
+                        <span class="text-xs sm:text-sm ${item.done ? 'line-through text-slate-500' : 'text-slate-200'}">${item.text}</span>
+                    </label>
+                    <button onclick="deleteTodoItem(${item.id})" class="text-slate-500 hover:text-rose-400 p-1"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
+                </div>
+            `).join('');
+            lucide.createIcons();
+        }
+
+        function addTodoItem() {
+            const input = document.getElementById('todo-input');
+            if (!input || !input.value.trim()) return;
+            todoItems.push({ id: Date.now(), text: input.value.trim(), done: false });
+            input.value = '';
+            saveAndRenderTodos();
+        }
+
+        function toggleTodoItem(id) {
+            todoItems = todoItems.map(i => i.id === id ? { ...i, done: !i.done } : i);
+            saveAndRenderTodos();
+        }
+
+        function deleteTodoItem(id) {
+            todoItems = todoItems.filter(i => i.id !== id);
+            saveAndRenderTodos();
+        }
+
+        // Modal Konu Notları
+        function openCourseModal(courseId) {
+            const course = coursesData.find(c => c.id === courseId);
+            if (!course) return;
+            document.getElementById('modal-title').textContent = `6. Sınıf ${course.title} Konu Notları`;
+            document.getElementById('modal-tip-text').textContent = course.tip;
+            document.getElementById('modal-summary-text').textContent = course.summary;
+            document.getElementById('modal-icon-box').innerHTML = `<i data-lucide="${course.icon}" class="w-8 h-8 text-white"></i>`;
+
+            const doneCount = course.chapters.filter(ch => completedChapters.includes(ch.id)).length;
+            document.getElementById('modal-progress-badge').textContent = `${doneCount}/${course.chapters.length} Bölüm Tamamlandı`;
+
+            document.getElementById('modal-chapters').innerHTML = course.chapters.map(ch => {
+                const isDone = completedChapters.includes(ch.id);
+                return `
+                <div class="border ${isDone ? 'border-teal-300 bg-teal-50/30' : 'border-slate-200 bg-white'} rounded-2xl p-4 flex items-center justify-between gap-4">
+                    <div>
+                        <div class="text-[11px] font-extrabold text-teal-600 mb-1">${ch.unit} • ${ch.duration}</div>
+                        <h5 class="font-heading font-bold text-slate-900 text-base">${ch.title}</h5>
+                        <p class="text-xs text-slate-600 mt-1">${ch.notes}</p>
+                    </div>
+                    <button onclick="toggleChapterComplete('${course.id}', '${ch.id}')" class="px-3 py-2 rounded-xl text-xs font-bold ${isDone ? 'bg-teal-600 text-white' : 'bg-slate-100 text-slate-700'} shrink-0 cursor-pointer">
+                        ${isDone ? 'Tamamlandı' : 'Tamamla'}
+                    </button>
+                </div>
+            `;
+            }).join('');
+
+            document.getElementById('course-modal').classList.remove('hidden');
+            document.getElementById('course-modal').classList.add('flex');
+            lucide.createIcons();
+        }
+
+        function closeModal() {
+            document.getElementById('course-modal').classList.add('hidden');
+            document.getElementById('course-modal').classList.remove('flex');
+        }
+
+        function toggleChapterComplete(courseId, chapterId) {
+            if (completedChapters.includes(chapterId)) {
+                completedChapters = completedChapters.filter(id => id !== chapterId);
+            } else {
+                completedChapters.push(chapterId);
+            }
+            saveChapterProgress();
+            renderGrade6Section();
+            openCourseModal(courseId);
+        }
+
+        // Kullanıcı Adı Giriş Yönetimi
+        function handleUsernameSubmit(event) {
+            event.preventDefault();
+            const input = document.getElementById('username-input');
+            if (!input) return;
+            const name = input.value.trim();
+            if (!name) return;
+
+            localStorage.setItem('sertac_username', name);
+            applyUsername(name);
+            document.getElementById('username-modal')?.classList.add('hidden');
+        }
+
+        function applyUsername(name) {
+            const el = document.getElementById('display-username');
+            if (el) el.textContent = name;
+        }
+
+        // Sayfa Yüklendiğinde
+        window.addEventListener('DOMContentLoaded', () => {
+            // Her girişte adın sorulması için kaydedilen ismi siliyoruz
+            localStorage.removeItem('sertac_username');
+            
+            // Adı sormak için modalı açıyoruz
+            document.getElementById('username-modal')?.classList.remove('hidden');
+
+            const savedTheme = localStorage.getItem('sertac_portal_theme') || 'original';
+            setTheme(savedTheme);
+            renderGrade6Section();
+            updateOverallProgressBanner();
+            initCentralTestCenter();
+            updatePomodoroDisplay();
+            saveAndRenderTodos();
+            lucide.createIcons();
+        });
+    </script>
+</body>
+</html>
